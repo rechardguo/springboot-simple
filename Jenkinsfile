@@ -14,6 +14,7 @@ pipeline {
 
             stage('start') {
                  steps {
+                     sh 'chmod 777 assembly/bin/restart.sh'
                      sh 'assembly/bin/restart.sh'
                   }
               }
