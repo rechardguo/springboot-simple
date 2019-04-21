@@ -14,7 +14,7 @@ pipeline {
 
             stage('start') {
                  steps {
-                     sh './assembley/bin/restart.sh'
+                     sh '/assembly/bin/restart.sh'
                   }
               }
         }
