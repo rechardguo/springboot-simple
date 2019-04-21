@@ -11,5 +11,11 @@ pipeline {
                     sh 'mvn -B -DskipTests clean package'
                 }
             }
+
+            stage('start') {
+                 steps {
+                     sh './assembley/bin/restart.sh'
+                  }
+              }
         }
 }
