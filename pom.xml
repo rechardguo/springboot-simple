@@ -113,7 +113,7 @@
                     <imageName>${docker.registry.url}/${project.artifactId}:${project.version}</imageName>
                     <dockerDirectory>src/main/docker</dockerDirectory>
                     <buildArgs>
-                        ${project.build.directory}/${project.build.finalName}.jar
+                        <JAR_FILE>${project.build.directory}/${project.build.finalName}.jar</JAR_FILE>
                     </buildArgs>
                     <resources>
                         <resource>
