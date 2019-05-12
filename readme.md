@@ -1,4 +1,53 @@
 > 简单的一个用户的rest crud
+### 如何调整到一个页面
+
+
+### mybatis generator
+pom.xml 里配置 ,注意version选1.3.5 选1.3.7 会报错，官方文档里写的就是1.3.7不知道为什么
+```xml
+ <plugins>
+       <plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+                <version>1.3.5</version>
+                <executions>
+                    <execution>
+                        <id>Generate MyBatis Artifacts</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                            <groupId>mysql</groupId>
+                            <artifactId>mysql-connector-java</artifactId>
+                        <version>${mysql.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+```
+建立resources/genertorConfig.xml 在里面配置即可
+有些参数配置可以加入到pom.xml里的properties里，例如
+ <mybatis.generator.overwrite>true</mybatis.generator.overwrite>
+更多的参数参看
+http://www.mybatis.org/generator/running/runningWithMaven.html
+
+```xml
+<table catalog="miaosha"   tableName="goods" domainObjectName="Good" >
+            <generatedKey column="id" sqlStatement="mysql" identity="true" />
+</table>
+```
+注意 catalog 需要指定库，由于mysql没有schema，所以使用catalog
+
+### 集成thymeleaf
+
+
+### Automatic Restart
+1. pom.xml 加上spring-boot-devtools
+2. idea里需要手动trigger, 方法是右键project->build module
+
 ###  简单的操作
 - postman做CRUD
 
@@ -6,9 +55,48 @@
 http://127.0.0.1:9898/swagger-ui.html
 
 
+### war 包的启动步骤
+1. Bootstrap 上加上SpringBootServletInitializer
+2. pom.xml里改成的<package>war</package>
+3. mvn clean package -Dmaven.test.skip=true
+4. 将生成的war 包放到tomcat目录下
+5. pom.xml里的spring-boot-starter-web要exclude tomcat，注意exlcude后就不能再通过main启动，会报servlet包找不到
+
+### docker 部署启动
+集成docker
+
 ### Jenkins 自动化部署
+#### 新建项目 构建一个maven的项目
+- 碰到的问题如下
+- - 没看到maven选项
+>找maven intergration 插件
+
+- - 插件timeout无法更新
+
+找插件管理 - advance - Update Site
+url 填写成
+http://mirror.esuni.jp/jenkins/updates/update-center.json
+
+- - 构建中maven_home找不到，由于是docker 建立的jenkins,jenkins里需要使用宿主机器的maven路径，需要将宿主机器的maven映射到docker里，如下的-v /usr/share/maven3:/usr/share/maven3,这样在jenkins的全局工具配置里里可以不设置maven_home
+```
+    docker run \
+      --name jenkins\
+      -d \
+      -u root \
+      -p 8686:8080 \
+      -v /data/jenkins/jenkins-data:/var/jenkins_home \
+      -v /run/docker.sock:/var/run/docker.sock \
+      -v /usr/share/maven3:/usr/share/maven3 \
+      -v /data/jenkins/home:/home \
+      jenkinsci/blueocean
+```
+
+#### 建立基于Jenkinsfile的pipeline方式的构建
+
 > 在项目里建立一个Jenkinsfile的文件，参看项目里的Jenkinsfile
 **注意不要有一开头不要有Jenkinsfile (Declarative Pipeline)**
+
+
 
 例如：我一开始建立如下
 ```
