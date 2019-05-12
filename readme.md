@@ -4,6 +4,7 @@
 
 ### mybatis generator
 pom.xml 里配置 ,注意version选1.3.5 选1.3.7 会报错，官方文档里写的就是1.3.7不知道为什么
+注意的是在pom.xml里平时为注释掉状态，上传上去的不要包含非注释掉的
 ```xml
  <plugins>
        <plugin>
@@ -44,6 +45,50 @@ http://www.mybatis.org/generator/running/runningWithMaven.html
 ### 集成thymeleaf
 
 
+### docker 私有仓库 建立
+在我的百度云上106.12.131.132 操作
+1. 建立了一个私有仓库
+```
+docker run -it -d \
+-p 5000:5000 \
+-v /data/registry:/var/lib/registry \
+--name registry registry
+```
+2.
+`vi /etc/docker/daemon.json `
+```
+{  
+  "insecure-registries":["106.12.131.132:5000"] 
+}
+```
+3. 重启 docker
+`systemctl restart docker`
+
+4. 将一个本地的镜像redis上传到私有仓库
+```
+docker tag redis:3.2 106.12.131.132:5000/redis:3.2 
+docker push 12.131.132:5000/redis:3.2
+```
+
+5. 验证是否成功，看
+`http://106.12.131.132:5000/v2/redis/tags/list`
+
+任何的客户端想要访问
+
+`vi /etc/docker/daemon.json `
+
+```
+{  
+  "insecure-registries":["106.12.131.132:5000"],
+  "registry-mirrors":  ["106.12.131.132:5000"]  
+ }
+  ```
+  
+重启docker后使用
+`docker pull 106.12.131.132:5000/redis:3.2` 拉取镜像
+
+
+
 ### Automatic Restart
 1. pom.xml 加上spring-boot-devtools
 2. idea里需要手动trigger, 方法是右键project->build module
@@ -64,6 +109,8 @@ http://127.0.0.1:9898/swagger-ui.html
 
 ### docker 部署启动
 集成docker
+
+
 
 ### Jenkins 自动化部署
 #### 新建项目 构建一个maven的项目
