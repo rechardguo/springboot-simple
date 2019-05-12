@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue 表单绑定</title>
+</head>
+<body>
+<!-- v-model 绑定 -->
+<div id="app-1" >
+    <input style="white-space: pre-line;" v-model="message" placeholder="edit me">
+    <p>Message is: {{ message }}</p>
+</div>
+
+<div id="app-2">
+    <select  multiple v-model="selected">
+        <option disabled value="">请选择</option>
+        <option v-for="option in options" v-bind:value="option.value">
+            {{ option.text }}
+        </option>
+    </select>
+    <span>Selected: {{ selected }}</span>
+</div>
+
+<div id="app-3">
+    <!-- 在“change”时而非“input”时更新 -->
+    <input v-model.lazy="msg" >
+    <input v-model.number="age" type="number">
+    <input v-model.trim="msg">
+</div>
+
+<!--v-model="checkedNames" 会获取到value的值-->
+<div id='app-3'>
+    <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+    <label for="jack">Jack</label>
+    <input type="checkbox" id="john" value="John" v-model="checkedNames">
+    <label for="john">John</label>
+    <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+    <label for="mike">Mike</label>
+    <br>
+    <span>Checked names: {{ checkedNames }}</span>
+</div>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+   var app1=new Vue({
+      el:"#app-1",
+       data:{
+           message:"hello vue"
+       }
+   })
+   var app2=new Vue({
+       el:"#app-2",
+       data:{
+           selected: '',
+           options:[
+               {"text":"apple","value":"a"},
+               {"text":"banana","value":"b"},
+               {"text":"orange","value":"o"},
+               {"text":"grape","value":"g"}
+           ]
+       }
+   })
+
+   var app3=new Vue({
+       el: "#app-3",
+       data: {
+           checkedNames: []
+       }
+   })
+</script>
+</html>

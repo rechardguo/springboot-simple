@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue 的组件知识</title>
+</head>
+<body>
+<div id="app-1">
+    <button-counter></button-counter>
+    <blog v-for="b in blogs" v-bind:title="b.title"></blog>
+    <blog-list  v-bind:blogs="blogs"></blog-list>
+</div>
+
+<div id="blog-posts-events-demo" >
+    <div :style="{ fontSize: postFontSize + 'em' }">
+        <blog-post
+                v-for="post in posts"
+                v-bind:key="post.id"
+                v-bind:post="post"
+                v-on:enlarge-text="enlargeFontSize"
+        ></blog-post>
+    </div>
+</div>
+
+<div id="app-3">
+    <custom-input v-model="searchText" v-on:input="alert($event)"></custom-input>
+
+</div>
+
+
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    // 定义一个名为 button-counter 的新组件
+    Vue.component('button-counter', {
+        data: function () { //一个组件的 data 选项必须是一个函数
+            return {
+                count: 0
+            }
+        },
+        template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+    })
+
+    Vue.component('blog',{
+        props:['title'],
+        template:'<h3>{{title}}</h3>'
+    })
+    <!--$emit 来触发一个事件enlarge-text-->
+    Vue.component('blog-post',{
+        props:['post'],
+        template: `
+            <div class="blog-post">
+              <h3>{{ post.title }}</h3>
+              <button v-on:click="$emit('enlarge-text',0.1)">
+                Enlarge text
+              </button>
+              <div v-html="post.content"></div>
+            </div>
+        `
+    })
+
+    Vue.component('blog-list',{
+        props:['blogs'],
+        template:`
+        <div class="blog-post">
+         <ol>
+             <li v-for="post in blogs">
+                  <h3>{{ post.title }}</h3>
+             </li>
+         </ol>
+        </div>
+        `
+    })
+
+    Vue.component('custom-input',{
+        props:['value'],
+        template:`
+        <input
+        v-bind:value="value"
+        v-on:input="$emit('input',$event.target.value)"></input>
+        `
+    })
+
+    Vue.component('alert-box', {
+        template: `
+    <div class="demo-alert-box">
+      <strong>Error!</strong>
+      <slot></slot>
+    </div>
+  `
+    })
+
+    var app1=new Vue({
+        el:"#app-1",
+        data:{
+            blogs:[{'title':'hello world1'},{'title':'hello vue'}]
+        }
+    })
+
+
+    var app2=new Vue({
+        el:"#blog-posts-events-demo",
+        data:{
+            posts:[
+                {id:1,'title':'hello world1','content':'hello world1'},
+                {id:2,'title':'hello vue','content':'hello vue1'}],
+            postFontSize: 1
+        },
+        methods:{
+            enlargeFontSize:function(size) {
+             return  this.postFontSize += size
+            }
+
+        }
+    })
+
+    var app3=new Vue({
+        el:"#app-3",
+        data:{
+            searchText:'abc'
+        },
+        methods:{
+            alert:function(msg){
+                alert(msg)
+            }
+        }
+    })
+</script>
+</html>
