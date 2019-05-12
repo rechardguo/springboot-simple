@@ -21,7 +21,6 @@
         <mybatis.paginator.version>1.2.15</mybatis.paginator.version>
         <mybatis.generator.overwrite>true</mybatis.generator.overwrite>
         <docker.registry.url>106.12.131.132:5000</docker.registry.url>
-        <host.target.path>/data/jenkins/jenkins-data/workspace/simple_mvn/target</host.target.path>
     </properties>
 
     <dependencies>
@@ -114,7 +113,7 @@
                     <imageName>${docker.registry.url}/${project.artifactId}:${project.version}</imageName>
                     <dockerDirectory>src/main/docker</dockerDirectory>
                     <buildArgs>
-                        <JAR_FILE>/${host.target.path}/${project.build.finalName}.jar</JAR_FILE>
+                        <JAR_FILE>/${project.build.finalName}.jar</JAR_FILE>
                     </buildArgs>
                     <resources>
                         <resource>
