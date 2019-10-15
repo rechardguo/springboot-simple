@@ -2,6 +2,7 @@ FROM openjdk:8u222-jre
 LABEL maitainer=rechard
 LABEL description="simple springboot"
 WORKDIR app
-ADD $PWD/target/simplemvc-2.0.0.RELEASE.jar .
+RUN mkdir /logs
+ADD $PWD/target/simplemvc-1.0.0.jar app.jar
 EXPOSE 9898
-CMD nohup java -jar simplemvc-2.0.0.RELEASE.jar >> logs/out.log 2>&1 &
+ENTRYPOINT java -jar app:jar >> /logs/out.log 2>&1 &
