@@ -15,7 +15,6 @@ public class BootStrap {
     public static void main(String[] args) {
         SpringApplicationBuilder builder=new SpringApplicationBuilder(BootStrap.class);
         ConfigurableApplicationContext context=builder.run(args);
-        context.getMessage("argument.required",null,Locale.CHINESE);
     }
 
 }

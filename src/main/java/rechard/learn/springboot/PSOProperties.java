@@ -10,7 +10,7 @@ import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-@Component
+//@Component
 public class PSOProperties {
     @Autowired
     ResourceBundleMessageSource ms;

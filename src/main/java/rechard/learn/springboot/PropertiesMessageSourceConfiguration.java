@@ -17,7 +17,7 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Set;
 
-@Configuration
+//@Configuration
 public class PropertiesMessageSourceConfiguration {
 
     @Bean

@@ -7,7 +7,7 @@ COPY src/ /build/src/
 RUN mvn package
 
 FROM openjdk:8u222-jre
-EXPOSE 80
+EXPOSE 9898
 CMD exec java -Dloader.path="/home/libs/" -jar /home/app.jar
 COPY --from=builder /build/target/*.jar /home/app.jar
-COPY --from=builder /build/target/libs /home/libs/
+RUN mkdir /home/libs
