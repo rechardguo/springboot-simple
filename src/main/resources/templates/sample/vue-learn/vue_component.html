@@ -7,7 +7,7 @@
 <body>
 <div id="app-1">
     <button-counter></button-counter>
-    <blog v-for="b in blogs" v-bind:title="b.title"></blog>
+    <blog v-for="b in blogs" v-bind:title="properties.b.title"></blog>
     <blog-list  v-bind:blogs="blogs"></blog-list>
 </div>
 

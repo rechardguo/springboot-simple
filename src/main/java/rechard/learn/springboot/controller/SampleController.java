@@ -180,4 +180,62 @@ public class SampleController {
         return (ds1==null);
     }
 
+    public static class WeChatResponse{
+        private String conversationId;
+        private String token;
+        private String requestId;
+        private String status;
+        private String error;
+        private String directlinePublicUri;
+
+        public String getConversationId() {
+            return conversationId;
+        }
+        public void setConversationId(String conversationId) {
+            this.conversationId = conversationId;
+        }
+        public String getToken() {
+            return token;
+        }
+        public void setToken(String token) {
+            this.token = token;
+        }
+        public String getStatus() {
+            return status;
+        }
+        public void setStatus(String status) {
+            this.status = status;
+        }
+        public String getError() {
+            return error;
+        }
+        public void setError(String error) {
+            this.error = error;
+        }
+
+        public String getRequestId() {
+            return requestId;
+        }
+        public void setRequestId(String requestId) {
+            this.requestId = requestId;
+        }
+        public String getDirectlinePublicUri() {
+            return directlinePublicUri;
+        }
+        public void setDirectlinePublicUri(String directlinePublicUri) {
+            this.directlinePublicUri = directlinePublicUri;
+        }
+
+    }
+
+    @PostMapping("/wechat/init")
+    @ResponseBody
+    public WeChatResponse wechatinit(){
+        WeChatResponse response=  new WeChatResponse();
+        response.setStatus("0");
+        response.setConversationId("abc");
+        response.setToken("cdf");
+        return response;
+    }
+
 }
